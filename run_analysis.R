@@ -1,39 +1,12 @@
----
-title: "Getting and Cleaning Data - Course Project"
-author: "Kayode Ayankoya"
-date: "Friday, December 12, 2014"
-output: html_document
----
-
-## Description of Scripts for Course Project
-This file provide and describes the code snippets used in this project and how they are related. The objects of this project is achieved using three functions.
-
-- download_file: This function  downloads and extracts the zipped the working folder
-
-```r
 download_file <- function(){
-        
-        ## Set the working folder
-        setwd("C:/Users/Lungelwa Wababa/Dropbox/Cousera/Getting and Cleaning Data/Course Project")
-        
-        ## Download zipped file from the internet
+                
         fileUrl <- "http://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip"
-        download.file(fileUrl, destfile="UCIHARDataset.zip")
         
-        ## Unzip the downloaded file
+        download.file(fileUrl, destfile="UCIHARDataset.zip")
         unzip("UCIHARDataset.zip", overwrite = TRUE)
         
 }
-```
 
-- load_data: This function is a helper function that takes 3 arguments. The first one is set which indicate if the data to be loaded is a train or a test set, The second is a data frame with two variable index and name that represent the column name of the data collected that was extracted from the features.txt file. LAstly is the labels aregument that contain the label for each of the activities performed by the sample.
-
-The load_data function includes proper column names for each of the columns in the provided data set and also include id to each row that data for each sample thereafter a label of each activities that each row stood for. It then returns a raw dataset.
-
-This function is mainly called in the run_analysis() function to load the train and test datasets.
-
-
-```r
 load_data <- function(set, features, labels){
         library(data.table)
         
@@ -59,15 +32,9 @@ load_data <- function(set, features, labels){
         # convert to data table
         data.table(mydata)
 }
-```
 
-
-- run_analysis: This is the main function that performs the analysis. This fucntion calls the load_data function to load cleaner set of the train and test data, it then joins the data sets together, cleans up the variable name for easy reading and writes out the raw data and the cleaned datasets as csv files.
-
-
-```r
 run_analysis <- function () {
-       
+        ##setwd('UCI HAR Dataset/')
         
         # Get the features
         feature_data <- read.table('features.txt', col.names = c('index', 'name'))
@@ -96,13 +63,10 @@ run_analysis <- function () {
         
         # Write the raw and the tidy data sets to files
         setwd('..')
-        write.table(raw_dataset, file = 'rawdata.csv', row.names = FALSE)
-        write.table(tidy_dataset, file = 'tidydata.csv',
+        write.table(raw_dataset, file = 'rawdata.txt', row.names = FALSE)
+        write.table(tidy_dataset, file = 'tidydata.txt',
                   row.names = FALSE, quote = FALSE)
         
         # Return the tidy data set
         tidy_dataset     
 }
-```
-
-
